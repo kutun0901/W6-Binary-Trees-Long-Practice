@@ -52,26 +52,64 @@ function findMaxBT(rootNode) {
 }
 
 function getHeight(rootNode) {
+  // if (!rootNode) return -1;
+  // // let height = 0;
+  // let lHeight = getHeight(rootNode.left);
+  // let rHeight = getHeight(rootNode.right);
+  // if (lHeight > rHeight) return lHeight + 1;
+  // else return rHeight + 1;
+
+  // if (!rootNode) return -1;
+  // rootNode.height = 0;
+  // let stack = [];
+  // let depthHeight = -1;
+  // stack.push(rootNode);
+  //  while (stack.length) {
+
+  //   let current = stack.pop();
+
+  //   // console.log(current.val);
+  //   if (current.left) {
+  //     current.left.height = current.height + 1;
+  //     stack.push(current.left);
+  //   }
+  //   if (current.right) {
+  //     current.right.height = current.height + 1;
+  //     stack.push(current.right);
+  //  }
+  //  //if currentnode > prevnode -> reassign the depth height to the currentNode
+  //  if (depthHeight = current.height)
+  // }
+  //  return height;
   if (!rootNode) return -1;
-  // let height = 0;
-  let lHeight = getHeight(rootNode.left);
-  let rHeight = getHeight(rootNode.right);
-  if (lHeight > rHeight) return lHeight + 1;
-  else return rHeight + 1;
-  // if (!rootNode.left && !rootNode.right) return 0;
-  // if (rootNode.left) {
-  //   height++;
-  //   getHeight(rootNode.left);
-  // }
-  // if (rootNode.right) {
-  //   height++;
-  //   getHeight(rootNode.right);
-  // }
-  // console.log(height);
-  // let max = Math.max(getHeight(rootNode.left), getHeight(rootNode.right))
-  // console.log(max);
-  // return max;
-  // return height;
+  let stack =[rootNode];
+  let height = -1;
+  while (stack.length) {
+    let length = stack.length;
+    for ( i = 0; i < length; i++) {
+      let current =stack.pop();
+      if (current.left) stack.push(current.left);
+      if (current.right) stack.push(current.right);
+    }
+    height++;
+  }
+  return height;
+
+
+//    depthFirstTraversal() {
+//     if (!this.root) return;
+
+//     let stack = [];
+//     stack.push(this.root);
+//      while (stack.length) {
+//       let current = stack.pop();
+
+//       console.log(current.val);
+//       if (current.left) stack.push(current.left);
+//       if (current.right) stack .push(current.right);
+//      }
+// }
+
 }
 
 function balancedTree(rootNode) {
