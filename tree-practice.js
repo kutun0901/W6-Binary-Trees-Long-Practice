@@ -52,72 +52,130 @@ function findMaxBT(rootNode) {
 }
 
 function getHeight(rootNode) {
+  //! Recursive Solve -------------------
   // if (!rootNode) return -1;
   // // let height = 0;
   // let lHeight = getHeight(rootNode.left);
   // let rHeight = getHeight(rootNode.right);
   // if (lHeight > rHeight) return lHeight + 1;
   // else return rHeight + 1;
+  //! -------------------
+
+  //todo ------------------------------
+  //! Assesment ******************************************
+
+  if (!rootNode) return -1;
+  rootNode.height = 0;
+  let stack = [];
+  let depthHeight = -1;
+  stack.push(rootNode);
+  while (stack.length) {
+    let current = stack.pop();
+    depthHeight = Math.max(current.height, depthHeight);
+    if (current.left) {
+      current.left.height = current.height + 1;
+      stack.push(current.left);
+    }
+    if (current.right) {
+      current.right.height = current.height + 1;
+      stack.push(current.right);
+    }
+  }
+  return depthHeight;
+
+  //todo ------------------------------
+  //! Assesment ******************************************
+
+  //! Iterative Solve
 
   // if (!rootNode) return -1;
-  // rootNode.height = 0;
-  // let stack = [];
-  // let depthHeight = -1;
-  // stack.push(rootNode);
-  //  while (stack.length) {
-
-  //   let current = stack.pop();
-
-  //   // console.log(current.val);
-  //   if (current.left) {
-  //     current.left.height = current.height + 1;
-  //     stack.push(current.left);
+  // let stack =[rootNode];
+  // let height = -1;
+  // while (stack.length) {
+  //   let length = stack.length;
+  //   for ( i = 0; i < length; i++) {
+  //     let current =stack.pop();
+  //     if (current.left) stack.push(current.left);
+  //     if (current.right) stack.push(current.right);
   //   }
-  //   if (current.right) {
-  //     current.right.height = current.height + 1;
-  //     stack.push(current.right);
-  //  }
-  //  //if currentnode > prevnode -> reassign the depth height to the currentNode
-  //  if (depthHeight = current.height)
+  //   height++;
   // }
-  //  return height;
-  if (!rootNode) return -1;
-  let stack =[rootNode];
-  let height = -1;
-  while (stack.length) {
-    let length = stack.length;
-    for ( i = 0; i < length; i++) {
-      let current =stack.pop();
-      if (current.left) stack.push(current.left);
-      if (current.right) stack.push(current.right);
-    }
-    height++;
-  }
-  return height;
+  // return height;
 
-
-//    depthFirstTraversal() {
-//     if (!this.root) return;
-
-//     let stack = [];
-//     stack.push(this.root);
-//      while (stack.length) {
-//       let current = stack.pop();
-
-//       console.log(current.val);
-//       if (current.left) stack.push(current.left);
-//       if (current.right) stack .push(current.right);
-//      }
-// }
-
+  //! ---------------------
 }
 
 function balancedTree(rootNode) {
   // Your code here
+  if (!rootNode) return new Error("tree is empty");
+  const queue = [rootNode];
+  while (queue.length) {
+    let shifted = queue.shift();
+    let leftHeight = getHeight(shifted.left);
+    let rightHeight = getHeight(shifted.right);
+    if (Math.abs(leftHeight - rightHeight) > 1) return false;
+    if (shifted.left) queue.push(shifted.left);
+    if (shifted.right) queue.push(shifted.right);
+  }
+  return true;
 }
+//! depth traverse solve
+// function balancedTree(rootNode) {
+//   //Step 1: Create an array as stack, push the root to stack
+//   let stack = [rootNode];
+//   while (stack.length) {// Step 2: while the stack is not empty repeat step 3 and 4
+//     //Step 3: pop a node from stack and get left and right height
+//     let node = stack.pop();
+
+//     let lHeight = getHeight(node.left);
+//     let rHeight = getHeight(node.right);
+//     if (Math.abs(lHeight - rHeight) > 1) return false;
+//     //Step 4: push the 2 children
+//     if (node.left) stack.push(node.left);
+//     if (node.right) stack.push(node.right);
+//   }
+//   return true;
+// }
+
+//! recursive solve
+// function balancedTree(rootNode) {
+//   if (!rootNode) return true;
+//   if (
+//     Math.abs(getHeight(rootNode.left) - getHeight(rootNode.right)) <= 1 &&
+//     balancedTree(rootNode.left) &&
+//     balancedTree(rootNode.right)
+//   ) {
+//     return true;
+//   }
+//   return false;
+// }
+
+// function countNodes(rootNode) {
+//   // Your code here
+//   if (!rootNode) return 0;
+//   let count = 0;
+
+//   let stack = [];
+
+//   stack.push(rootNode);
+//   while (stack.length) {
+//     let current = stack.pop();
+//     count++;
+//     if (current.left) {
+//       stack.push(current.left);
+//     }
+//     if (current.right) {
+//       stack.push(current.right);
+//     }
+//   }
+//   return count;
+// }
 
 function countNodes(rootNode) {
   // Your code here
+  if (!rootNode) return 0;
+
+  return countNodes(rootNode.left) + countNodes(rootNode.right) + 1;
 }
 
 function getParentNode(rootNode, target) {
